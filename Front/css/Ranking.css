@@ -11,9 +11,10 @@
 }
 
 .caja-trasera {
+    display: flex;
     position: absolute;
-}
-
-.box{
+    right: 350px;
+    bottom: 50px;
+    
     
 }
