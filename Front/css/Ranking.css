@@ -57,29 +57,35 @@ background-position: bottom right;
 .letra{  
     display: flex;
     position: absolute;
-    right: 500px;
-    top: 70px;   
+    right: 515px;
+    top: 80px;   
 }
 
-.Rank{
+.play{
     display: flex;
     position: absolute;
     right: 800px;
-    bottom: 350px;
+    bottom: 250px;
+    height: 100px;
+    width: 100px;
 }
 
-.jugador{
+.confi{
     display: flex;
     position: absolute;
-    right: 570px;
-    bottom: 350px;
+    right: 610px;
+    bottom: 250px;
+    height: 100px;
+    width: 100px;
 }
 
-.puntos{
+.sound{
     display: flex;
     position: absolute;
-    right: 400px;
-    bottom: 350px;
+    right: 420px;
+    bottom: 250px;
+    height: 100px;
+    width: 100px;
 }
 
 .flecha{
