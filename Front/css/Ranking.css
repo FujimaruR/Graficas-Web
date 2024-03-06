@@ -44,6 +44,7 @@ background-position: bottom right;
  }
 }
 
+
 .caja-trasera {
     display: flex;
     position: absolute;
@@ -86,6 +87,15 @@ background-position: bottom right;
     position: absolute;
     width: 100px;
     height: 100px;
+}
+
+.logo{
+    display: flex;
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    right: 70px;
+    
 }
 
 .alfa-slab one-regular {
