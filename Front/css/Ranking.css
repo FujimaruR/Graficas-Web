@@ -1,13 +1,47 @@
 body {
     height: 100vh;
     width: 100vw;
-    background: url('/Front/recursos/6690897_2352.jpg') no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-    position: absolute;
+    background: url('/Front/recursos/6690897_2352.jpg');
+    background-size: 150%;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: movimiento 60s infinite linear alternate;
+    background-attachment: fixed;
 
+}
+
+@keyframes colores {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+@keyframes color-letras {
+    0% { color: rgb(231, 76, 60); }
+    50% { color: rgb(241, 196, 15); }
+    100% { color: rgb(46, 204, 113); }
+}
+
+@keyframes movimiento{
+ 0%{
+     background-position: bottom left;
+
+ }
+ 25%{
+     background-position: top right;
+ }
+
+ 50%{
+background-position: bottom right;
+ }
+
+ 75%{
+     background-position: top left ;
+ }
+
+ 100%{
+     background-position: bottom left ;
+ }
 }
 
 .caja-trasera {
@@ -23,7 +57,7 @@ body {
     display: flex;
     position: absolute;
     right: 500px;
-    top: 80px;   
+    top: 70px;   
 }
 
 .Rank{
@@ -45,6 +79,13 @@ body {
     position: absolute;
     right: 400px;
     bottom: 350px;
+}
+
+.flecha{
+    display: flex;
+    position: absolute;
+    width: 100px;
+    height: 100px;
 }
 
 .alfa-slab one-regular {
