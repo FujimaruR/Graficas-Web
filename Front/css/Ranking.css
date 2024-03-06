@@ -23,9 +23,28 @@ body {
     display: flex;
     position: absolute;
     right: 500px;
-    top: 80px;
+    top: 80px;   
+}
 
-    
+.Rank{
+    display: flex;
+    position: absolute;
+    right: 800px;
+    bottom: 350px;
+}
+
+.jugador{
+    display: flex;
+    position: absolute;
+    right: 570px;
+    bottom: 350px;
+}
+
+.puntos{
+    display: flex;
+    position: absolute;
+    right: 400px;
+    bottom: 350px;
 }
 
 .alfa-slab one-regular {
