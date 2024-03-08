@@ -1,0 +1,130 @@
+body {
+    height: 100%;
+    width: 100%;
+    background: url('/Front/recursos/6690897_2352.jpg');
+    background-size: 150%;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: movimiento 60s infinite linear alternate;
+    background-attachment: fixed;
+
+}
+
+@keyframes colores {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+@keyframes color-letras {
+    0% { color: rgb(231, 76, 60); }
+    50% { color: rgb(241, 196, 15); }
+    100% { color: rgb(46, 204, 113); }
+}
+
+@keyframes movimiento{
+ 0%{
+     background-position: bottom left;
+
+ }
+ 25%{
+     background-position: top right;
+ }
+
+ 50%{
+background-position: bottom right;
+ }
+
+ 75%{
+     background-position: top left ;
+ }
+
+ 100%{
+     background-position: bottom left ;
+ }
+}
+
+
+.caja-trasera {
+    display: flex;
+    position: absolute;
+    right: 30%;
+    bottom: 20%;
+    
+    
+}
+
+.letra{  
+    display: flex;
+    position: absolute;
+    right: 40%;
+    top: 15%;
+    width: auto; 
+    height: 20%;   
+}
+
+.letra1{  
+    display: flex;
+    position: absolute;
+    right: 56%;
+    top: 37%;
+    width: auto; 
+    height: 10%;     
+}
+
+.letra2{  
+    display: flex;
+    position: absolute;
+    right: 56%;
+    top: 57%;
+    width: auto; /* Ancho deseado */
+    height: 10%;   
+}
+
+.rangebut {
+    position: absolute;
+    right: 33%; /* Ajusta la posición horizontal según tu preferencia */
+    top: 43%; /* Ajusta la posición vertical según tu preferencia */
+    transform: translateY(-50%); /* Centra verticalmente el elemento */
+    width: 20%; /* Define el ancho deseado */
+}
+
+.rangebut input {
+    width: 100%; /* Ajusta el ancho del input al 100% del contenedor */
+}
+
+
+.rangebut1 {
+    position: absolute;
+    right: 33%; /* Ajusta la posición horizontal según tu preferencia */
+    top: 63%; /* Ajusta la posición vertical según tu preferencia */
+    transform: translateY(-50%); /* Centra verticalmente el elemento */
+    width: 20%; /* Define el ancho deseado */
+}
+
+.rangebut1 input {
+    width: 100%; /* Ajusta el ancho del input al 100% del contenedor */
+}
+
+.flecha{
+    display: flex;
+    position: absolute;
+    width: 100px;
+    height: 100px;
+}
+
+.logo{
+    display: flex;
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    right: 70px;
+    
+}
+
+.alfa-slab one-regular {
+    font-family: "Alfa Slab One", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
