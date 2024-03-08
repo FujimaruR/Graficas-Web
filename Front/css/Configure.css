@@ -109,16 +109,19 @@ background-position: bottom right;
 .flecha{
     display: flex;
     position: absolute;
-    width: 100px;
-    height: 100px;
+    width: auto;
+    height: 10%;
+    right: 93%;
+    top: 2%;
 }
 
 .logo{
     display: flex;
     position: absolute;
-    width: 150px;
-    height: 150px;
-    right: 70px;
+    width: auto;
+    height: 20%;
+    right: 2%;
+    top: 2%;
     
 }
 
