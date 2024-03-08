@@ -68,7 +68,7 @@ background-position: bottom right;
     position: absolute;
     width: auto;
     height: 15%;
-    right: 55%;
+    right: 53%;
     top: 40%;
 }
 
@@ -77,16 +77,7 @@ background-position: bottom right;
     position: absolute;
     width: auto;
     height: 15%;
-    right: 45%;
-    top: 40%;
-}
-
-.sound{
-    display: flex;
-    position: absolute;
-    width: auto;
-    height: 15%;
-    right: 35%;
+    right: 37%;
     top: 40%;
 }
 
