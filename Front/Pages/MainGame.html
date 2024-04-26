@@ -82,6 +82,24 @@
         controls.enableDamping = true; // Suavizado del movimiento de los controles
         controls.dampingFactor = 0.25; // Factor de amortiguación
 
+        // Cargar la textura del fondo
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const imagen = urlParams.get('imagen');
+        const textureLoader = new THREE.TextureLoader();
+        const texture = textureLoader.load('/Front/recursos/Mapas/' + imagen);
+
+        // Crear un material con la textura del fondo
+        const backgroundMaterial = new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide });
+
+        // Crear un cubo grande para el fondo
+        const backgroundGeometry = new THREE.BoxGeometry(1000, 1000, 1000);
+        const backgroundCube = new THREE.Mesh(backgroundGeometry, backgroundMaterial);
+
+        // Agregar el cubo del fondo a la escena
+        scene.add(backgroundCube);
+
+
         let object;
 
         // Cargar el modelo OBJ
@@ -160,8 +178,6 @@
         animate();
 
         // Obtener la consulta de la URL
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
 
         // Verificar si el parámetro 'jugadores' está presente y tiene el valor 2
         if (urlParams.has('jugadores') && urlParams.get('jugadores') === '2') {
@@ -192,6 +208,19 @@
             secondDirectionalLight.position.set(0, 1, 0);
             secondScene.add(secondDirectionalLight);
 
+            const imagend = urlParams.get('imagen');
+            const textureLoaderd = new THREE.TextureLoader();
+            const textured = textureLoaderd.load('/Front/recursos/Mapas/' + imagend);
+
+            // Crear un material con la textura del fondo
+            const backgroundMateriald = new THREE.MeshBasicMaterial({ map: textured, side: THREE.BackSide });
+
+            // Crear un cubo grande para el fondo
+            const backgroundGeometryd = new THREE.BoxGeometry(1000, 1000, 1000);
+            const backgroundCubed = new THREE.Mesh(backgroundGeometryd, backgroundMateriald);
+
+            // Agregar el cubo del fondo a la escena
+            secondScene.add(backgroundCubed);
 
             let secondObject;
 
