@@ -108,52 +108,56 @@
             }
         );
 
+        const keysState = {};
+
+        // Escuchar eventos de teclado
+        document.addEventListener('keydown', (event) => {
+            // Marcar la tecla como activa en el objeto keysState
+            keysState[event.key] = true;
+        });
+
+        document.addEventListener('keyup', (event) => {
+            // Desmarcar la tecla como activa en el objeto keysState
+            keysState[event.key] = false;
+        });
+
+        const lateralSpeed = 1;
+        const VerticalSpeed = 1;
+
         // Función de animación
         function animate() {
             requestAnimationFrame(animate);
+
+            if (keysState['a'] || keysState['A']) {
+                // Mover el modelo hacia la izquierda
+                if (object && object.position.x - lateralSpeed >= -150) {
+                    object.position.x -= lateralSpeed;
+                }
+            }
+            if (keysState['d'] || keysState['D']) {
+                // Mover el modelo hacia la derecha
+                if (object && object.position.x + lateralSpeed <= 80) {
+                    object.position.x += lateralSpeed;
+                }
+            }
+            if (keysState['w'] || keysState['W']) {
+                // Mover el modelo hacia arriba
+                if (object && object.position.x + VerticalSpeed <= 70) {
+                    object.position.y += VerticalSpeed;
+                }
+            }
+            if (keysState['s'] || keysState['S']) {
+                // Mover el modelo hacia abajo
+                if (object && object.position.x + VerticalSpeed >= -44) {
+                    object.position.y -= VerticalSpeed;
+                }
+            }
+
+
             controls.update(); // Actualizar controles de órbita
             renderer.render(scene, camera);
         }
         animate();
-
-        // Variable para almacenar la velocidad de movimiento lateral
-        const lateralSpeed = 10;
-        const VerticalSpeed = 10;
-
-        // Escuchar eventos de teclado
-        document.addEventListener('keydown', (event) => {
-            switch (event.key) {
-                case 'a':
-                case 'A':
-                    // Mover el modelo hacia la izquierda
-                    if (object && object.position.x - lateralSpeed >= -150) {
-                        object.position.x -= lateralSpeed;
-                    }
-                    break;
-                case 'd':
-                case 'D':
-                    // Mover el modelo hacia la derecha
-                    if (object && object.position.x + lateralSpeed <= 80) {
-                        object.position.x += lateralSpeed;
-                    }
-                    break;
-                case 'w':
-                case 'W':
-                    // Mover el modelo hacia arriba
-                    if (object && object.position.y + VerticalSpeed <= 70) {
-                        object.position.y += VerticalSpeed;
-                    }
-                    break;
-
-                case 's':
-                case 'S':
-                    // Mover el modelo hacia abajo
-                    if (object && object.position.y + VerticalSpeed >= -65) {
-                        object.position.y -= VerticalSpeed;
-                    }
-                    break;
-            }
-        });
 
         // Obtener la consulta de la URL
         const queryString = window.location.search;
@@ -210,51 +214,56 @@
                 }
             );
 
+            const keysStateDos = {};
+
+            // Escuchar eventos de teclado
+            document.addEventListener('keydown', (event) => {
+                // Marcar la tecla como activa en el objeto keysState
+                keysStateDos[event.key] = true;
+            });
+
+            document.addEventListener('keyup', (event) => {
+                // Desmarcar la tecla como activa en el objeto keysState
+                keysStateDos[event.key] = false;
+            });
+
+            const lateralSpeed2 = 1;
+            const VerticalSpeed2 = 1;
+
             // Función de animación para la segunda escena
             function animateSecondScene() {
                 requestAnimationFrame(animateSecondScene);
+
+                if (keysState['j'] || keysState['J']) {
+                    // Mover el modelo hacia la izquierda
+                    if (secondObject && secondObject.position.x - lateralSpeed2 >= -150) {
+                        secondObject.position.x -= lateralSpeed2;
+                    }
+                }
+                if (keysState['l'] || keysState['L']) {
+                    // Mover el modelo hacia la derecha
+                    if (secondObject && secondObject.position.x + lateralSpeed2 <= 80) {
+                        secondObject.position.x += lateralSpeed2;
+                    }
+                }
+                if (keysState['i'] || keysState['I']) {
+                    // Mover el modelo hacia arriba
+                    if (secondObject && secondObject.position.x + VerticalSpeed2 <= 70) {
+                        secondObject.position.y += VerticalSpeed2;
+                    }
+                }
+                if (keysState['k'] || keysState['K']) {
+                    // Mover el modelo hacia abajo
+                    if (secondObject && secondObject.position.x + VerticalSpeed2 >= -44) {
+                        secondObject.position.y -= VerticalSpeed2;
+                    }
+                }
+
+
                 secondRenderer.render(secondScene, secondCamera);
             }
             animateSecondScene();
 
-
-            const lateralSpeed2 = 10;
-            const VerticalSpeed2 = 10;
-
-            // Escuchar eventos de teclado
-            document.addEventListener('keydown', (event) => {
-                switch (event.key) {
-                    case 'j':
-                    case 'J':
-                        // Mover el modelo hacia la izquierda
-                        if (secondObject && secondObject.position.x - lateralSpeed2 >= -150) {
-                            secondObject.position.x -= lateralSpeed2;
-                        }
-                        break;
-                    case 'l':
-                    case 'L':
-                        // Mover el modelo hacia la derecha
-                        if (secondObject && secondObject.position.x + lateralSpeed <= 80) {
-                            secondObject.position.x += lateralSpeed;
-                        }
-                        break;
-                    case 'i':
-                    case 'I':
-                        // Mover el modelo hacia arriba
-                        if (secondObject && secondObject.position.y + VerticalSpeed2 <= 70) {
-                            secondObject.position.y += VerticalSpeed2;
-                        }
-                        break;
-
-                    case 'k':
-                    case 'K':
-                        // Mover el modelo hacia abajo
-                        if (secondObject && secondObject.position.y + VerticalSpeed2 >= -65) {
-                            secondObject.position.y -= VerticalSpeed2;
-                        }
-                        break;
-                }
-            });
         }
 
     </script>
