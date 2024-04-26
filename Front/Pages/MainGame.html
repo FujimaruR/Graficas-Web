@@ -126,6 +126,31 @@
             }
         );
 
+        let objectSol;
+
+        const loaderDos = new OBJLoader();
+        loaderDos.load(
+            '/Front/recursos/Modelos/Bala/sol.obj',
+            function (loadedObjectD) {
+
+                objectSol = loadedObjectD;
+                // Ajustar la posición del modelo
+                objectSol.position.set(-45, 40, 0); // Modificar según sea necesario
+                objectSol.rotation.set(180, -0.1, 0.3);
+
+                // Ajustar la escala del modelo
+                objectSol.scale.set(0.0004, 0.0004, 0.0004); // Modificar según sea necesario
+
+                scene.add(objectSol);
+            },
+            function (xhr) {
+                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+            },
+            function (error) {
+                console.error('Error loading OBJ file:', error);
+            }
+        );
+
         const keysState = {};
 
         // Escuchar eventos de teclado
