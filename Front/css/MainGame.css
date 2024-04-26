@@ -48,12 +48,24 @@ background-position: bottom right;
 .caja-blanca {
     display: flex;
     position: absolute;
-    right: 32%;
-    bottom: 10%;
-    width: auto; 
-    height: 70%; 
-    
+    right: 30%;
+    bottom: 3%;
+    width: 600px; /* Establece el ancho deseado */
+    height: 600px; /* Establece la altura deseada */
+    overflow: hidden; /* Para recortar cualquier parte de la imagen que sobresalga del contenedor */
 }
+
+.segunda-caja-blanca {
+    display: flex;
+    position: absolute;
+    right: 8%; /* Ajusta la posición según tus necesidades */
+    bottom: 3%; /* Ajusta la posición según tus necesidades */
+    width: 600px; /* Establece el ancho deseado */
+    height: 600px; /* Establece la altura deseada */
+    overflow: hidden; /* Para recortar cualquier parte de la imagen que sobresalga del contenedor */
+}
+
+
 
 .letra{  
     display: flex;

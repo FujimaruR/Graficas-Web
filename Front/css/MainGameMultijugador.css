@@ -1,0 +1,100 @@
+body {
+    height: 100%;
+    width: 100%;
+    background: url('/Front/recursos/6690897_2352.jpg');
+    background-size: 150%;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: movimiento 60s infinite linear alternate;
+    background-attachment: fixed;
+
+}
+
+@keyframes colores {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+@keyframes color-letras {
+    0% { color: rgb(231, 76, 60); }
+    50% { color: rgb(241, 196, 15); }
+    100% { color: rgb(46, 204, 113); }
+}
+
+@keyframes movimiento{
+ 0%{
+     background-position: bottom left;
+
+ }
+ 25%{
+     background-position: top right;
+ }
+
+ 50%{
+background-position: bottom right;
+ }
+
+ 75%{
+     background-position: top left ;
+ }
+
+ 100%{
+     background-position: bottom left ;
+ }
+}
+
+
+.caja-blanca {
+    display: flex;
+    position: absolute;
+    right: 32%;
+    bottom: 10%;
+    width: auto; 
+    height: 70%; 
+    
+}
+
+.letra{  
+    display: flex;
+    position: absolute;
+    right: 45%;
+    top: 2%;
+    width: auto; 
+    height: 10%;   
+}
+
+.pause{
+    display: flex;
+    position: absolute;
+    width: auto;
+    height: 10%;
+    right: 5%;
+    top: 2%;
+}
+
+.logo{
+    display: flex;
+    position: absolute;
+    width: auto;
+    height: 20%;
+    right: 90%;
+    top: 2%;
+    
+}
+
+.players{
+    display: flex;
+    position: absolute;
+    width: auto;
+    height: 20%;
+    right: 70%;
+    top: 2%;
+}
+
+.alfa-slab one-regular {
+    font-family: "Alfa Slab One", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
