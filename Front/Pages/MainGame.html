@@ -109,6 +109,21 @@
             function (loadedObject) {
 
                 object = loadedObject;
+
+                        // Cargar la textura para el modelo
+                const textureLoader = new THREE.TextureLoader();
+                const texture = textureLoader.load('/Front/recursos/Modelos/Cohete1/10475_Rocket_Ship_v1_Diffuse.jpg');
+
+                // Crear un material con la textura cargada
+                const material = new THREE.MeshBasicMaterial({ map: texture });
+
+                // Aplicar el material al objeto
+                object.traverse(function (child) {
+                    if (child instanceof THREE.Mesh) {
+                        child.material = material;
+                    }
+                });
+
                 // Ajustar la posición del modelo
                 object.position.set(-45, -78, 0); // Modificar según sea necesario
                 object.rotation.set(180, -0.1, 0.3);
@@ -252,9 +267,22 @@
             // Cargar el modelo OBJ en la segunda escena
             const secondLoader = new OBJLoader();
             secondLoader.load(
-                '/Front/recursos/Modelos/Cohete1/10475_Rocket_Ship_v1_L3.obj',
+                '/Front/recursos/Modelos/Cohete2/Cohete2.obj',
                 function (SecondloadedObject) {
                     secondObject = SecondloadedObject;
+                    // Cargar la textura para el segundo modelo
+                const textureLoader = new THREE.TextureLoader();
+                const texture = textureLoader.load('/Front/recursos/Modelos/Cohete2/Textura2Cohete.jpg');
+
+                // Crear un material con la textura cargada
+                const material = new THREE.MeshBasicMaterial({ map: texture });
+
+                // Aplicar el material al objeto
+                secondObject.traverse(function (child) {
+                    if (child instanceof THREE.Mesh) {
+                        child.material = material;
+                    }
+                });
                     secondObject.position.set(-45, -78, 0);
                     secondObject.rotation.set(180, -0.1, 0.3);
                     secondObject.scale.set(0.1, 0.1, 0.1);

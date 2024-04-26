@@ -1,0 +1,20 @@
+newmtl _Rocket_Ship_v1_L3:_Rocket_Ship_v1
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd Textura2Cohete.jpg
+map_Ka 10475_Rocket_Ship_v1_Diffuse.jpg
+Ni 1.50
+Ks 0.45 0.45 0.45
+Ns 53.00
+newmtl _Rocket_Ship_v1_L3:gloss
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd 10475_Rocket_Ship_v1_Diffuse.jpg
+map_Ka 10475_Rocket_Ship_v1_Diffuse.jpg
+Ni 1.50
+Ks 0.76 0.76 0.76
+Ns 65.00
