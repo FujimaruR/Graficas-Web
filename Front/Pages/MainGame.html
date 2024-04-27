@@ -110,7 +110,7 @@
 
                 object = loadedObject;
 
-                        // Cargar la textura para el modelo
+                // Cargar la textura para el modelo
                 const textureLoader = new THREE.TextureLoader();
                 const texture = textureLoader.load('/Front/recursos/Modelos/Cohete1/10475_Rocket_Ship_v1_Diffuse.jpg');
 
@@ -155,6 +155,19 @@
 
                 // Ajustar la escala del modelo
                 objectSol.scale.set(0.0004, 0.0004, 0.0004); // Modificar según sea necesario
+
+                const redTextureLoader = new THREE.TextureLoader();
+                const redTexture = redTextureLoader.load('/Front/recursos/Modelos/Bala/ROJO INTENSO  Rojo con tendencia a textura táctil áspera 100% de saturación.jpeg');
+
+                // Crear un material con la textura roja
+                const redMaterial = new THREE.MeshBasicMaterial({ map: redTexture });
+
+                // Aplicar el material al objeto
+                objectSol.traverse(function (child) {
+                    if (child instanceof THREE.Mesh) {
+                        child.material = redMaterial;
+                    }
+                });
 
                 scene.add(objectSol);
             },
@@ -271,18 +284,18 @@
                 function (SecondloadedObject) {
                     secondObject = SecondloadedObject;
                     // Cargar la textura para el segundo modelo
-                const textureLoader = new THREE.TextureLoader();
-                const texture = textureLoader.load('/Front/recursos/Modelos/Cohete2/Textura2Cohete.jpg');
+                    const textureLoader = new THREE.TextureLoader();
+                    const texture = textureLoader.load('/Front/recursos/Modelos/Cohete2/Textura2Cohete.jpg');
 
-                // Crear un material con la textura cargada
-                const material = new THREE.MeshBasicMaterial({ map: texture });
+                    // Crear un material con la textura cargada
+                    const material = new THREE.MeshBasicMaterial({ map: texture });
 
-                // Aplicar el material al objeto
-                secondObject.traverse(function (child) {
-                    if (child instanceof THREE.Mesh) {
-                        child.material = material;
-                    }
-                });
+                    // Aplicar el material al objeto
+                    secondObject.traverse(function (child) {
+                        if (child instanceof THREE.Mesh) {
+                            child.material = material;
+                        }
+                    });
                     secondObject.position.set(-45, -78, 0);
                     secondObject.rotation.set(180, -0.1, 0.3);
                     secondObject.scale.set(0.1, 0.1, 0.1);
