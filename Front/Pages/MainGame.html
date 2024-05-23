@@ -38,6 +38,8 @@
         <div class="players">
             <img src="/Front/recursos/Imagenes/1jugadores.png" alt="invalid-img" class="box5" id="box7">
         </div>
+
+        <div id="score">Puntos: 0</div>
     </div>
 
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>-->
@@ -143,39 +145,119 @@
 
         let objectSol;
 
+        const enemyBullets = [];
+        const numBullets = 5;
         const loaderDos = new OBJLoader();
-        loaderDos.load(
-            '/Front/recursos/Modelos/Bala/sol.obj',
-            function (loadedObjectD) {
+        const redTextureLoader = new THREE.TextureLoader();
+        const redTexture = redTextureLoader.load('/Front/recursos/Modelos/Bala/rojo.jpeg');
 
-                objectSol = loadedObjectD;
-                // Ajustar la posición del modelo
-                objectSol.position.set(-45, 40, 0); // Modificar según sea necesario
-                objectSol.rotation.set(180, -0.1, 0.3);
 
-                // Ajustar la escala del modelo
-                objectSol.scale.set(0.0004, 0.0004, 0.0004); // Modificar según sea necesario
+        loaderDos.load('/Front/recursos/Modelos/Bala/sol.obj', (loadedObjectD) => {
+            for (let i = 0; i < numBullets; i++) {
+                const bullet = new EnemyBullet(loadedObjectD, redTexture);
+                enemyBullets.push(bullet);
+            }
+        });
 
-                const redTextureLoader = new THREE.TextureLoader();
-                const redTexture = redTextureLoader.load('/Front/recursos/Modelos/Bala/ROJO INTENSO  Rojo con tendencia a textura táctil áspera 100% de saturación.jpeg');
+        let modelo1, modelo2, modelo3; // Variables para almacenar los modelos
 
-                // Crear un material con la textura roja
-                const redMaterial = new THREE.MeshBasicMaterial({ map: redTexture });
+        // Cargar el modelo 1
+        const loaderModelo1 = new OBJLoader();
+        loaderModelo1.load(
+            '/Front/recursos/Modelos/Escudo/Sci-Fi_CAP.obj',
+            function (loadedObject) {
+                modelo1 = loadedObject;
+
+                const textureLoader = new THREE.TextureLoader();
+                const texture = textureLoader.load('/Front/recursos/Modelos/Escudo/BaseColor.png');
+
+                // Crear un material con la textura cargada
+                const material = new THREE.MeshBasicMaterial({ map: texture });
 
                 // Aplicar el material al objeto
-                objectSol.traverse(function (child) {
+                modelo1.traverse(function (child) {
                     if (child instanceof THREE.Mesh) {
-                        child.material = redMaterial;
+                        child.material = material;
                     }
                 });
-
-                scene.add(objectSol);
+                // Configurar posición, escala, rotación, etc., según sea necesario
+                modelo1.position.set(-45, -48, 0);
+                modelo1.scale.set(0.6, 0.6, 0.6);
+                modelo1.rotation.set(-80, -0.1, 0.3);
+                // Agregar el modelo a la escena
+                scene.add(modelo1);
             },
             function (xhr) {
                 console.log((xhr.loaded / xhr.total * 100) + '% loaded');
             },
             function (error) {
-                console.error('Error loading OBJ file:', error);
+                console.error('Error loading OBJ file for modelo1:', error);
+            }
+        );
+
+        // Cargar el modelo 2
+        const loaderModelo2 = new OBJLoader();
+        loaderModelo2.load(
+            '/Front/recursos/Modelos/Rayo/Rayo.obj',
+            function (loadedObject) {
+                modelo2 = loadedObject;
+
+                const textureLoader = new THREE.TextureLoader();
+                const texture = textureLoader.load('/Front/recursos/Modelos/Bala/rojo.jpeg');
+
+                // Crear un material con la textura cargada
+                const material = new THREE.MeshBasicMaterial({ map: texture });
+
+                // Aplicar el material al objeto
+                modelo2.traverse(function (child) {
+                    if (child instanceof THREE.Mesh) {
+                        child.material = material;
+                    }
+                });
+                // Configurar posición, escala, rotación, etc., según sea necesario
+                modelo2.position.set(-45, -78, 0);
+                modelo2.scale.set(2, 2, 2);
+                // Agregar el modelo a la escena
+                scene.add(modelo2);
+            },
+            function (xhr) {
+                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+            },
+            function (error) {
+                console.error('Error loading OBJ file for modelo2:', error);
+            }
+        );
+
+        // Cargar el modelo 3
+        const loaderModelo3 = new OBJLoader();
+        loaderModelo3.load(
+            '/Front/recursos/Modelos/Reloj/HourglassWSand0.obj',
+            function (loadedObject) {
+                modelo3 = loadedObject;
+
+                const textureLoader = new THREE.TextureLoader();
+                const texture = textureLoader.load('/Front/recursos/Modelos/Bala/rojo.jpeg');
+
+                // Crear un material con la textura cargada
+                const material = new THREE.MeshBasicMaterial({ map: texture });
+
+                // Aplicar el material al objeto
+                modelo3.traverse(function (child) {
+                    if (child instanceof THREE.Mesh) {
+                        child.material = material;
+                    }
+                });
+                // Configurar posición, escala, rotación, etc., según sea necesario
+                modelo3.position.set(-65, -78, 0);
+                modelo3.scale.set(5, 5, 5);
+                // Agregar el modelo a la escena
+                scene.add(modelo3);
+            },
+            function (xhr) {
+                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+            },
+            function (error) {
+                console.error('Error loading OBJ file for modelo3:', error);
             }
         );
 
@@ -192,12 +274,145 @@
             keysState[event.key] = false;
         });
 
-        const lateralSpeed = 1;
-        const VerticalSpeed = 1;
+        let lateralSpeed = 1;
+        let VerticalSpeed = 1;
+        let rotationSpeedX = 0.001;
+        let rotationSpeedY = 0.001;
+        const box1 = new THREE.Box3();
+        const box2 = new THREE.Box3();
+
+        class EnemyBullet {
+            constructor(model, texture) {
+                this.model = model.clone();
+                const material = new THREE.MeshBasicMaterial({ map: texture });
+                this.model.traverse((child) => {
+                    if (child instanceof THREE.Mesh) {
+                        child.material = material;
+                    }
+                });
+                this.model.scale.set(0.0002, 0.0002, 0.0002);
+                scene.add(this.model);  // Aseguramos que el modelo esté en la escena antes de crear la caja de colisión
+                this.box = new THREE.Box3();
+                this.resetPosition();
+            }
+
+            resetPosition() {
+                const startX = Math.random() * 800 - 400;
+                const startY = Math.random() * 600 - 300;
+                if (Math.random() < 0.5) {
+                    this.model.position.set(startX, Math.random() < 0.5 ? -300 : 300, 0);
+                } else {
+                    this.model.position.set(Math.random() < 0.5 ? -400 : 400, startY, 0);
+                }
+                this.direction = new THREE.Vector3(0, 0, 0).sub(this.model.position).normalize();
+                this.box.setFromObject(this.model);
+            }
+
+            update() {
+                this.model.position.add(this.direction.clone().multiplyScalar(1)); // Ajusta la velocidad multiplicando por un factor
+                this.box.setFromObject(this.model);
+
+                if (this.model.position.x < -400 || this.model.position.x > 400 || this.model.position.y < -300 || this.model.position.y > 300) {
+                    this.resetPosition();
+                }
+            }
+        }
+
+        let score = 0;
+        let isPaused = false;
+
+
+        let invulnerableTime = 0;
+        let slowBulletTime = 0;
+        let speedBoostTime = 0;
+
+        function checkCollisions() {
+            if (!object) return false;
+
+            const rocketBox = new THREE.Box3().setFromObject(object);
+
+            if (modelo1) {
+                const escudoBox = new THREE.Box3().setFromObject(modelo1);
+                if (rocketBox.intersectsBox(escudoBox)) {
+                    if (invulnerableTime <= 0) {
+                        invulnerableTime = 16 * 60;
+                        console.log('Colisión detectada con escudo');
+                        modelo1.visible = false;
+                    }
+                }
+            }
+
+            if (modelo2) {
+                const rayoBox = new THREE.Box3().setFromObject(modelo2);
+                if (rocketBox.intersectsBox(rayoBox)) {
+                    if (speedBoostTime <= 0) {
+                        speedBoostTime = 16 * 60;
+
+                        lateralSpeed *= 2;
+                        VerticalSpeed *= 2;
+                        console.log('Colisión detectada con rayo');
+                        modelo2.visible = false;
+                    }
+                }
+            }
+
+            if (modelo3) {
+                const relojBox = new THREE.Box3().setFromObject(modelo3);
+                if (rocketBox.intersectsBox(relojBox)) {
+                    if (slowBulletTime <= 0) {
+                        slowBulletTime = 16 * 60;
+                        console.log('Colisión detectada con reloj');
+                        for (const bullet of enemyBullets) {
+                            bullet.direction.multiplyScalar(0.5); // Ralentizar la velocidad de las balas a la mitad
+                        }
+                        modelo3.visible = false;
+                    }
+                }
+            }
+
+            if (invulnerableTime <= 0) {
+                for (const bullet of enemyBullets) {
+                    if (rocketBox.intersectsBox(bullet.box)) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
 
         // Función de animación
         function animate() {
             requestAnimationFrame(animate);
+
+            if (invulnerableTime > 0) {
+                invulnerableTime -= 1;
+                if (invulnerableTime <= 0) {
+                    modelo1.visible = true;
+                }
+            }
+
+            if (slowBulletTime > 0) {
+                slowBulletTime -= 1;
+                if (slowBulletTime <= 0) {
+                    for (const bullet of enemyBullets) {
+                        bullet.speed *= 2; // Restaurar la velocidad de las balas
+                    }
+                    modelo2.visible = true; // Hacer visible el rayo de nuevo
+                }
+            }
+
+            if (speedBoostTime > 0) {
+                speedBoostTime -= 1;
+                if (speedBoostTime <= 0) {
+                    lateralSpeed /= 2; // Restaurar la velocidad lateral del cohete
+                    VerticalSpeed /= 2; // Restaurar la velocidad vertical del cohete
+                    modelo3.visible = true; // Hacer visible el reloj de nuevo
+                }
+            }
+
+            backgroundCube.rotation.x += rotationSpeedX;
+            backgroundCube.rotation.y += rotationSpeedY;
 
             if (keysState['a'] || keysState['A']) {
                 // Mover el modelo hacia la izquierda
@@ -224,9 +439,28 @@
                 }
             }
 
+            if (object) {
+                box1.setFromObject(object);
+                enemyBullets.forEach((bullet) => {
+                    bullet.update(object);
+                    if (box1.intersectsBox(bullet.box)) {
+                        console.log('Colisión detectada');
+                    }
+                });
+            }
 
+            /*moveBullet();*/
             controls.update(); // Actualizar controles de órbita
             renderer.render(scene, camera);
+
+            if (!isPaused) {
+                score++;
+                document.getElementById('score').innerText = `Puntos: ${score}`;
+            }
+
+            if (checkCollisions()) {
+                isPaused = true;
+            }
         }
         animate();
 
@@ -328,6 +562,9 @@
             // Función de animación para la segunda escena
             function animateSecondScene() {
                 requestAnimationFrame(animateSecondScene);
+
+                backgroundCubed.rotation.x += rotationSpeedX;
+                backgroundCubed.rotation.y += rotationSpeedY;
 
                 if (keysState['j'] || keysState['J']) {
                     // Mover el modelo hacia la izquierda
