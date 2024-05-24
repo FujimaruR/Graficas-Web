@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproducir sonido al hacer clic en el enlace</title>
+</head>
+<body>
+    <a id="jugarLink" href="Multijugador.html">
+        <span><img src="/Front/recursos/Imagenes/rocket.png" alt="Imagen de cohete"> Jugar</span>
+    </a>
+    
+    <audio id="clickSound" src="/Front/recursos/Audios/Minecraft_Sound.mp3"></audio>
+
+    <script>
+        // Obtener el elemento del enlace y el elemento de audio
+        const jugarLink = document.getElementById('jugarLink');
+        const clickSound = document.getElementById('clickSound');
+        
+        // Añadir un evento de clic al enlace
+        jugarLink.addEventListener('click', function(event) {
+            // Prevenir la acción por defecto del enlace
+            event.preventDefault();
+            
+            // Reproducir el sonido
+            clickSound.play();
+            
+            // Redirigir a la página después de que el sonido haya comenzado a reproducirse
+            clickSound.onended = function() {
+                window.location.href = jugarLink.href;
+            };
+        });
+    </script>
+</body>
+</html>

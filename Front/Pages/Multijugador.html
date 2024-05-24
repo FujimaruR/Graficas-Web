@@ -7,12 +7,59 @@
     <link rel="icon" type="image/png" href="/Front/recursos/icono.png">
     <title>INFINITE SPACE</title>
 </head>
-<body>
+<body onclick="PlayAudio()">
     <img src="/Front/recursos/logo.png" alt="Imagen encima de los botones">
     <div class="horizontal-buttons">
-    <a href="MenuMaps.html?jugadores=1" class="big-button" ><span> <img src="/Front/recursos/Imagenes/1jugadores.png" alt="Imagen de botón">Un Jugador</span></a>
-    <a href="MenuMaps.html?jugadores=2" class="big-button" ><span ><img src="/Front/recursos/Imagenes/2jugadores.png" alt="Imagen de botón"> Multiplayer</span></a>
+    <a id="oneplayer" href="MenuMaps.html?jugadores=1" class="big-button" ><span> <img src="/Front/recursos/Imagenes/1jugadores.png" alt="Imagen de botón">Un Jugador</span></a>
+    <a id="twoplayer" href="MenuMaps.html?jugadores=2" class="big-button" ><span ><img src="/Front/recursos/Imagenes/2jugadores.png" alt="Imagen de botón"> Multiplayer</span></a>
 </div>
 <a id="tilin" href="index.html"  class="corner-button"> <span> <img src="/Front/recursos/Imagenes/atras.png" alt="Imagen de botón"></span></a>
+
+<audio id="AuMusic" autoplay loop>
+    <source src="/Front/recursos/Audios/AdhesiveWombat_Night Shade.mp3" type="audio/mpeg">
+   </audio>
+   <audio id="clicksound" src="/Front/recursos/Audios/Minecraft_Sound.mp3"></audio>
+
+   <script>
+    function PlayAudio(){
+        document.getElementById('AuMusic').play();
+    }
+     
+    const clicksound = document.getElementById('clicksound');
+        const oneplayer = document.getElementById('oneplayer');
+        oneplayer.addEventListener('click', function(event){
+            event.preventDefault();
+            clicksound.play();
+
+            clicksound.onended = function() {
+                window.location.href = oneplayer.href;
+            };
+        });
+
+
+        const clicksound1 = document.getElementById('clicksound');
+        const twoplayer = document.getElementById('twoplayer');
+        twoplayer.addEventListener('click', function(event){
+            event.preventDefault();
+            clicksound1.play();
+
+            clicksound1.onended = function() {
+                window.location.href = twoplayer.href;
+            };
+        });
+
+
+        const clicksound2 = document.getElementById('clicksound');
+        const tilin = document.getElementById('tilin');
+        tilin.addEventListener('click', function(event){
+            event.preventDefault();
+            clicksound2.play();
+
+            clicksound2.onended = function() {
+                window.location.href = tilin.href;
+            };
+        });
+    
+   </script>
 </body>
 </html>

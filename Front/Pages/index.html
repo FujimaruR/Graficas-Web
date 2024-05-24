@@ -9,11 +9,66 @@
     
     <title>INFINITE SPACE</title>
 </head>
-<body>
+<body onclick="PlayAudio()">
     <img src="/Front/recursos/logo.png" alt="Imagen encima de los botones">
-   <a href="Multijugador.html"> <span><img src="/Front/recursos/Imagenes/rocket.png" alt="Imagen de cohete"> Jugar</span> </a>
-   <a href="Ranking.html"> <span><img src="/Front/recursos/Imagenes/trofeo.png" alt="Imagen de trofeo">Ranking</span> </a>
-   <a href="Configure.html"> <span><img src="/Front/recursos/Imagenes/tuerrca.png" alt="Imagen de tuerca">Ajustes</span> </a>
+   <a id="multi" href="Multijugador.html"> <span><img src="/Front/recursos/Imagenes/rocket.png" alt="Imagen de cohete"> Jugar</span> </a>
+   <a id="rank" href="Ranking.html"> <span><img src="/Front/recursos/Imagenes/trofeo.png" alt="Imagen de trofeo">Ranking</span> </a>
+   <a id="configure" href="Configure.html"> <span><img src="/Front/recursos/Imagenes/tuerrca.png" alt="Imagen de tuerca">Ajustes</span> </a>
+
+   <audio id="AuMusic" autoplay loop>
+    <source src="/Front/recursos/Audios/AdhesiveWombat_Night Shade.mp3" type="audio/mpeg">
+   </audio>
+   <audio id="clicksound" src="/Front/recursos/Audios/Minecraft_Sound.mp3"></audio>
    <!-- <script src="./Bootstrap/js/bootstrap.bundle.min.js"></script>-->
+
+   <script>
+    function PlayAudio(){
+        document.getElementById('AuMusic').play();
+    }
+       
+        const clicksound = document.getElementById('clicksound');
+
+        document.addEventListener('click', function(){
+              clicksound.play();
+        });
+
+        //para darle sonido alos botones
+        const clicksound1 = document.getElementById('clicksound');
+        const jugarLink = document.getElementById('multi');
+        jugarLink.addEventListener('click', function(event){
+            event.preventDefault();
+            clicksound1.play();
+
+            clicksound1.onended = function() {
+                window.location.href = jugarLink.href;
+            };
+        });
+
+
+
+        const clicksound2 = document.getElementById('clicksound');
+        const rank = document.getElementById('rank');
+        rank.addEventListener('click', function(event){
+            event.preventDefault();
+            clicksound2.play();
+
+            clicksound2.onended = function() {
+                window.location.href = rank.href;
+            };
+        });
+
+
+
+        const clicksound3 = document.getElementById('clicksound');
+        const configure = document.getElementById('configure');
+        configure.addEventListener('click', function(event){
+            event.preventDefault();
+            clicksound3.play();
+
+            clicksound3.onended = function() {
+                window.location.href = configure.href;
+            };
+        });
+   </script>
 </body>
 </html>

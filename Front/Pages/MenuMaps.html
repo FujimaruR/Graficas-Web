@@ -13,7 +13,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body onclick="PlayAudio()">
+
+       <audio id="AuMusic" autoplay loop>
+        <source src="/Front/recursos/Audios/AdhesiveWombat_Night Shade.mp3" type="audio/mpeg">
+       </audio>
+
     <div class="contenedor-todo">
         <div class="caja-trasera">
             <img src="/Front/recursos/caja.png" alt="invalid-img" class="box" id="box">
@@ -62,6 +67,10 @@
 
 
     <script src="/Back/MenuMaps.js"></script>
+    <script>
+        function PlayAudio(){
+            document.getElementById('AuMusic').play();
+        }
 </body>
 
 

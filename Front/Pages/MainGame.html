@@ -15,7 +15,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
-<body>
+<body onclick="PlayAudio()">
     <div class="contenedor-todo">
         <div class="caja-blanca" id="MostrarMap">
             <!--<img src="/Front/recursos/cuadro-blanco.png.jpg" alt="invalid-img" class="box" id="box">-->
@@ -25,7 +25,7 @@
             <img src="/Front/recursos/PUNTOS.png" alt="invalid-img" class="box1" id="box1">
         </div>
 
-        <a href="MenuPause.html">
+        <a id="Pause" href="MenuPause.html">
             <div class="pause">
                 <img src="/Front/recursos/pausa (3).png" alt="invalid-img" class="box5" id="box5">
             </div>
@@ -41,6 +41,37 @@
 
         <div id="score">Puntos: 0</div>
     </div>
+
+    <!--para implementar audio -->
+    <audio id="clicksound" src="/Front/recursos/Audios/Minecraft_Sound.mp3"></audio>
+    
+    <div id="contenedoraudio">
+        <audio id="AuMusic" autoplay loop>
+            <source src="/Front/recursos/Audios/JeremyBlake_Powerup.mp3" type="audio/mpeg">
+           </audio>
+    
+    </div>
+    
+       <script>
+        function PlayAudio(){
+        document.getElementById('AuMusic').play();
+        }
+
+
+        //para darle sonido alos botones
+        const clicksound = document.getElementById('clicksound');
+        const Pause = document.getElementById('Pause');
+        Pause.addEventListener('click', function(event){
+            event.preventDefault();
+            clicksound.play();
+
+            clicksound.onended = function() {
+                window.location.href = Pause.href;
+            };
+        });
+       </script>
+
+       
 
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>-->
 
