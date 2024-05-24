@@ -6,8 +6,72 @@
     <link rel="stylesheet" href="/Front/css/menuPrincipal.css">
     <link rel="icon" type="image/png" href="/Front/recursos/icono.png">
     <title>INFINITE SPACE</title>
+
+
+    <style>
+        .modal {
+      display: none; /* Ocultar por defecto */
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0,0,0);
+      background-color: rgba(0,0,0,0.4); /* Fondo negro con opacidad */
+  }
+  .modal-content {
+      background-color: #105392;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+  }
+  .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+  }
+  .close:hover,
+  .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+  }
+  .save{
+    background-color: black;
+  }
+  button {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #444;
+}
+</style>
 </head>
 <body onclick="PlayAudio()">
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="playerForm">
+                <h2>Nombre del Jugador</h2>
+                <label for="playerName">Nombre:</label>
+                <input  type="text" id="playerName" name="playerName" required>
+                <br><br>
+                <button id="save" type="submit">Guardar</button>
+            </form>
+        </div>
+    </div>
+
     <img src="/Front/recursos/logo.png" alt="Imagen encima de los botones">
     <div class="horizontal-buttons">
     <a id="oneplayer" href="MenuMaps.html?jugadores=1" class="big-button" ><span> <img src="/Front/recursos/Imagenes/1jugadores.png" alt="Imagen de botón">Un Jugador</span></a>
@@ -19,6 +83,41 @@
     <source src="/Front/recursos/Audios/AdhesiveWombat_Night Shade.mp3" type="audio/mpeg">
    </audio>
    <audio id="clicksound" src="/Front/recursos/Audios/Minecraft_Sound.mp3"></audio>
+
+
+   <script>
+    // Obtener el modal
+    const modal = document.getElementById('myModal');
+
+    // Obtener el <span> que cierra el modal
+    const span = document.getElementsByClassName('close')[0];
+
+    // Mostrar el modal automáticamente cuando se carga la página
+    window.onload = function() {
+        modal.style.display = 'block';
+    }
+
+    // Cerrar el modal cuando el usuario hace clic en <span> (x)
+    span.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    // Cerrar el modal cuando el usuario hace clic fuera del modal
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    // Manejar el envío del formulario
+    const form = document.getElementById('playerForm');
+    form.onsubmit = function(event) {
+        event.preventDefault();
+        const playerName = document.getElementById('playerName').value;
+        alert(`Nombre del jugador: ${playerName}`);
+        modal.style.display = 'none';
+    }
+</script>
 
    <script>
     function PlayAudio(){
