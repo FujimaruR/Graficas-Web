@@ -295,12 +295,12 @@
         // Cargar el modelo 3
         const loaderModelo3 = new OBJLoader();
         loaderModelo3.load(
-            '/Front/recursos/Modelos/Reloj/HourglassWSand0.obj',
+            '/Front/recursos/Modelos/Reloj/uploads_files_3008605_sand+watch+obj.obj',
             function (loadedObject) {
                 modelo3 = loadedObject;
 
                 const textureLoader = new THREE.TextureLoader();
-                const texture = textureLoader.load('/Front/recursos/Modelos/Bala/rojo.jpeg');
+                const texture = textureLoader.load('/Front/recursos/Modelos/Reloj/low_DefaultMaterial_BaseColor.png');
 
                 // Crear un material con la textura cargada
                 const material = new THREE.MeshBasicMaterial({ map: texture });
@@ -314,7 +314,7 @@
                 // Configurar posición, escala, rotación, etc., según sea necesario
                 const position = getRandomPosition();
                 modelo3.position.set(position.x, position.y, 0);
-                modelo3.scale.set(5, 5, 5);
+                modelo3.scale.set(10, 10, 10);
                 // Agregar el modelo a la escena
                 scene.add(modelo3);
             },
@@ -828,11 +828,11 @@
 
             const loaderSecondModelo3 = new OBJLoader();
             loaderSecondModelo3.load(
-                '/Front/recursos/Modelos/Reloj/HourglassWSand0.obj',
+                '/Front/recursos/Modelos/Reloj/uploads_files_3008605_sand+watch+obj.obj',
                 function (loadedObject) {
                     secondModelo3 = loadedObject;
                     const textureLoader = new THREE.TextureLoader();
-                    const texture = textureLoader.load('/Front/recursos/Modelos/Bala/rojo.jpeg');
+                    const texture = textureLoader.load('/Front/recursos/Modelos/Reloj/low_DefaultMaterial_BaseColor.png');
                     const material = new THREE.MeshBasicMaterial({ map: texture });
 
                     secondModelo3.traverse(function (child) {
