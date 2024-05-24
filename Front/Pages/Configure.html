@@ -15,6 +15,9 @@
 </head>
 
 <body>
+
+    <audio id="clicksound" src="/Front/recursos/Audios/Minecraft_Sound.mp3"></audio>
+    
     <div class="contenedor-todo">
         <div class="caja-trasera">
             <img src="/Front/recursos/caja.png" alt="invalid-img" class="box" id="box">
@@ -40,7 +43,7 @@
             <input type="range" class="form-range" min="0" max="5" id="customRange1">
         </div>
 
-        <a href="index.html">
+        <a id="regresar" href="index.html">
             <div class="flecha">
                 <img src="/Front/recursos/Recurso 3.png" alt="invalid-img" class="box5" id="box5">
             </div>
@@ -50,6 +53,20 @@
             <img src="/Front/recursos/logo.png" alt="initial-scale" class="box6" id="box6">
         </div>
     </div>
+
+    <script>
+        //para darle sonido alos botones
+        const clicksound = document.getElementById('clicksound');
+        const regresar = document.getElementById('regresar');
+        regresar.addEventListener('click', function(event){
+            event.preventDefault();
+            clicksound.play();
+
+            clicksound.onended = function() {
+                window.location.href = regresar.href;
+            };
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
