@@ -5,6 +5,15 @@ window.onload = function () {
 
     if (score) {
         var scoreid = document.getElementById('score');
-        scoreid.textContent  = "Puntos: " + score;
+        scoreid.textContent = "Puntos: " + score;
+    }
+
+    if (urlParams.has('scored')) {
+        var secondScore = document.createElement('div');
+        secondScore.id = 'scoreD'
+        document.body.appendChild(secondScore);
+
+        var scoredos = urlParams.get('scored');
+        secondScore.textContent = "Puntos: " + scoredos;
     }
 };

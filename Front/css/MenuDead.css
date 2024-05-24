@@ -110,8 +110,22 @@ background-position: bottom right;
 
     display: flex;
     position: absolute;
-    right: 43%;
+    right: 53%;
     top: 37%;
     width: auto; 
     height: 10%;   
+}
+
+#scoreD {
+    font-size: 34px;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+
+    display: flex;
+    position: absolute;
+    right: 34%;
+    top: 37%;
+    width: auto;
+    height: 10%;
 }

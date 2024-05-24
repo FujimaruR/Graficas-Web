@@ -44,34 +44,34 @@
 
     <!--para implementar audio -->
     <audio id="clicksound" src="/Front/recursos/Audios/Minecraft_Sound.mp3"></audio>
-    
+
     <div id="contenedoraudio">
         <audio id="AuMusic" autoplay loop>
             <source src="/Front/recursos/Audios/JeremyBlake_Powerup.mp3" type="audio/mpeg">
-           </audio>
-    
+        </audio>
+
     </div>
-    
-       <script>
-        function PlayAudio(){
-        document.getElementById('AuMusic').play();
+
+    <script>
+        function PlayAudio() {
+            document.getElementById('AuMusic').play();
         }
 
 
         //para darle sonido alos botones
         const clicksound = document.getElementById('clicksound');
         const Pause = document.getElementById('Pause');
-        Pause.addEventListener('click', function(event){
+        Pause.addEventListener('click', function (event) {
             event.preventDefault();
             clicksound.play();
 
-            clicksound.onended = function() {
+            clicksound.onended = function () {
                 window.location.href = Pause.href;
             };
         });
-       </script>
+    </script>
 
-       
+
 
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>-->
 
@@ -106,9 +106,16 @@
         scene.add(ambientLight);
 
         // Agregar una luz direccional
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5); // Color, intensidad
+        /*const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5); // Color, intensidad
         directionalLight.position.set(0, 1, 0); // Posición de la luz
         scene.add(directionalLight);
+
+        scene.remove(directionalLight);*/
+
+        // Agregar una luz puntual
+        const pointLight = new THREE.PointLight(0xffffff, 1); // Color, intensidad
+        pointLight.position.set(0, 0, 50); // Posición de la luz
+        scene.add(pointLight);
 
         // Crear controles de órbita
         const controls = new OrbitControls(camera, renderer.domElement);
@@ -202,6 +209,16 @@
                 const bullet = new EnemyBullet(loadedObjectD, redTexture);
                 enemyBullets.push(bullet);
             }
+        });
+
+        let IaBullets;
+        const loaderIa = new OBJLoader();
+        const yellowIaTextureLoader = new THREE.TextureLoader();
+        const yellowIaTexture = yellowIaTextureLoader.load('/Front/recursos/Modelos/Rayo/Amarillo.png');
+
+
+        loaderIa.load('/Front/recursos/Modelos/Bala/sol.obj', (loadedObjectIa) => {
+            IaBullets = new IaBullet(loadedObjectIa, yellowIaTexture);
         });
 
         let modelo1, modelo2, modelo3; // Variables para almacenar los modelos
@@ -366,6 +383,34 @@
             }
         }
 
+        class IaBullet {
+            constructor(model, texture) {
+                this.model = model.clone();
+                const material = new THREE.MeshBasicMaterial({ map: texture });
+                this.model.traverse((child) => {
+                    if (child instanceof THREE.Mesh) {
+                        child.material = material;
+                    }
+                });
+                this.model.scale.set(0.0002, 0.0002, 0.0002);
+                scene.add(this.model);  // Aseguramos que el modelo esté en la escena antes de crear la caja de colisión
+                this.box = new THREE.Box3();
+                this.resetPosition();
+            }
+
+            resetPosition() {
+                this.model.position.set(0, -70, 0);
+                this.box.setFromObject(this.model);
+            }
+
+            update(target) {
+                const direction = target.position.clone().sub(this.model.position).normalize();
+                this.model.position.add(direction.multiplyScalar(0.7)); // Ajusta la velocidad multiplicando por un factor
+                this.box.setFromObject(this.model);
+            }
+        }
+
+        let scoreDos = 0;
         let score = 0;
         let isPaused = false;
         let isPausedDos = false;
@@ -424,34 +469,79 @@
             if (invulnerableTime <= 0) {
                 for (const bullet of enemyBullets) {
                     if (rocketBox.intersectsBox(bullet.box)) {
-                        if (urlParams.has('jugadores') && urlParams.get('jugadores') === '1') {
-                            localStorage.setItem('username', 'indefinido');
-                            localStorage.setItem('Puntuacion', score);
-
-                            window.location.href = `MenuDead.html?score=${score}`;
-
-                        } else if (isPausedDos === false) {
-                            Dead = true;
-                        } else if (isPausedDos === true) {
-                            Dead = true;
-                            localStorage.setItem('username', 'indefinido');
-                            localStorage.setItem('Puntuacion', score);
-
-                            window.location.href = `MenuDead.html?score=${score}`;
-                        } else {
-                            Dead = true;
-                            return true;
-                        }
+                        Dead = true;
+                        return true;
                     }
+                }
+            }
+
+            if (invulnerableTime <= 0 && imagen != 'MicrosoftTeams-image (2).png') {
+                if (rocketBox.intersectsBox(IaBullets.box)) {
+                    Dead = true;
+                    return true;
+                }
+            }
+
+            if (imagen === 'MicrosoftTeams-image (2).png') {
+                if (rocketBox.intersectsBox(IaBullets.box)) {
+                    Dead = true;
+                    return true;
                 }
             }
 
             return false;
         }
 
+        let chaseTime = 0; // 5 segundos en frames (asumiendo 60 FPS)
+        let totalTime = 0; // 10 segundos en frames (asumiendo 60 FPS)
+        let isWaitingTotal = false;
+        let isChasing = true;
+
         // Función de animación
         function animate() {
             if (Dead === true) {
+                if (urlParams.has('jugadores') && urlParams.get('jugadores') === '1') {
+                    let usernames = JSON.parse(localStorage.getItem('usernames')) || [];
+                    let puntuaciones = JSON.parse(localStorage.getItem('puntuaciones')) || [];
+
+                    // Obtener el username y la puntuación actual
+                    let usernameActual = 'indefinido';
+                    let puntuacionActual = score;
+
+                    // Agregar el username y la puntuación actual al arreglo
+                    usernames.push(usernameActual);
+                    puntuaciones.push(puntuacionActual);
+
+                    // Guardar los arreglos en el localStorage
+                    localStorage.setItem('usernames', JSON.stringify(usernames));
+                    localStorage.setItem('puntuaciones', JSON.stringify(puntuaciones));
+
+                    window.location.href = `MenuDead.html?score=${score}`;
+
+                } else if (isPausedDos === true) {
+                    let usernames = JSON.parse(localStorage.getItem('usernames')) || [];
+                    let puntuaciones = JSON.parse(localStorage.getItem('puntuaciones')) || [];
+
+                    // Obtener el username y la puntuación actual
+                    let usernameActual = 'indefinido';
+                    let puntuacionActual = score;
+
+                    // Agregar el username y la puntuación actual al arreglo
+                    usernames.push(usernameActual);
+                    puntuaciones.push(puntuacionActual);
+
+                    let usernameActualD = 'indefinido';
+                    let puntuacionActualD = scoreDos;
+
+                    usernames.push(usernameActualD);
+                    puntuaciones.push(puntuacionActualD);
+
+                    // Guardar los arreglos en el localStorage
+                    localStorage.setItem('usernames', JSON.stringify(usernames));
+                    localStorage.setItem('puntuaciones', JSON.stringify(puntuaciones));
+
+                    window.location.href = `MenuDead.html?score=${score}&scored=${scoreDos}`;
+                }
                 return;
             }
             requestAnimationFrame(animate);
@@ -524,6 +614,30 @@
                         console.log('Colisión detectada');
                     }
                 });
+
+                if (chaseTime <= 0 && isWaitingTotal === false && totalTime === 0) {
+                    isChasing = true;
+                    isWaitingTotal = true;
+                    chaseTime = 5 * 60;
+                }
+
+                if (totalTime <= 0 && isWaitingTotal === true && chaseTime <= 0) {
+                    isChasing = false;
+                    totalTime = 10 * 60;
+                    isWaitingTotal = false;
+                }
+
+
+                if (IaBullets && isChasing === true) {
+                    chaseTime -= 1;
+                    IaBullets.update(object);
+                    if (box1.intersectsBox(IaBullets.box)) {
+                        console.log('Colisión detectada con la bala IA');
+                        //Dead = true;
+                    }
+                } else if (IaBullets && isChasing === false) {
+                    totalTime -= 1;
+                }
             }
 
             /*moveBullet();*/
@@ -573,9 +687,13 @@
             // Crear una segunda luz ambiental y direccional
             const secondAmbientLight = new THREE.AmbientLight(0xffffff, 0.5);
             secondScene.add(secondAmbientLight);
-            const secondDirectionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            /*const secondDirectionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
             secondDirectionalLight.position.set(0, 1, 0);
-            secondScene.add(secondDirectionalLight);
+            secondScene.add(secondDirectionalLight);*/
+
+            const pointLight = new THREE.PointLight(0xffffff, 1); // Color, intensidad
+            pointLight.position.set(0, 0, 50); // Posición de la luz
+            scene.add(pointLight);
 
             const imagend = urlParams.get('imagen');
             const textureLoaderd = new THREE.TextureLoader();
@@ -636,6 +754,16 @@
                     const bullet = new EnemyBulletDos(loadedObjectBalaD, redBalaTexture);
                     enemyBulletsDos.push(bullet);
                 }
+            });
+
+            let IaBulletsDos;
+            const loaderIaDos = new OBJLoader();
+            const yellowIaTextureLoaderDos = new THREE.TextureLoader();
+            const yellowIaTextureDos = yellowIaTextureLoaderDos.load('/Front/recursos/Modelos/Rayo/Amarillo.png');
+
+
+            loaderIaDos.load('/Front/recursos/Modelos/Bala/sol.obj', (loadedObjectIaD) => {
+                IaBulletsDos = new IaBulletD(loadedObjectIaD, yellowIaTextureDos);
             });
 
 
@@ -779,9 +907,35 @@
                 }
             }
 
+            class IaBulletD {
+                constructor(model, texture) {
+                    this.model = model.clone();
+                    const material = new THREE.MeshBasicMaterial({ map: texture });
+                    this.model.traverse((child) => {
+                        if (child instanceof THREE.Mesh) {
+                            child.material = material;
+                        }
+                    });
+                    this.model.scale.set(0.0002, 0.0002, 0.0002);
+                    secondScene.add(this.model);  // Aseguramos que el modelo esté en la escena antes de crear la caja de colisión
+                    this.box = new THREE.Box3();
+                    this.resetPosition();
+                }
+
+                resetPosition() {
+                    this.model.position.set(0, -70, 0);
+                    this.box.setFromObject(this.model);
+                }
+
+                update(target) {
+                    const direction = target.position.clone().sub(this.model.position).normalize();
+                    this.model.position.add(direction.multiplyScalar(0.7)); // Ajusta la velocidad multiplicando por un factor
+                    this.box.setFromObject(this.model);
+                }
+            }
+
             let lateralSpeed2 = 1;
             let VerticalSpeed2 = 1;
-            let scoreDos = 0;
 
             let invulnerableTimeDos = 0;
             let slowBulletTimeDos = 0;
@@ -834,28 +988,61 @@
                 if (invulnerableTimeDos <= 0) {
                     for (const bullet of enemyBulletsDos) {
                         if (rocketBoxDos.intersectsBox(bullet.box)) {
-                            if (isPaused === false) {
-                                DeadDos = true;
-                            } else if (isPaused === true) {
-                                DeadDos = true;
-                                localStorage.setItem('username', 'indefinido');
-                                localStorage.setItem('Puntuacion', score);
-
-                                window.location.href = `MenuDead.html?score=${score}`;
-                            } else {
-                                DeadDos = true;
-                                return true;
-                            }
+                            DeadDos = true;
+                            return true;
                         }
+                    }
+                }
+
+                if (invulnerableTimeDos <= 0 && imagen != 'MicrosoftTeams-image (2).png') {
+                    if (rocketBoxDos.intersectsBox(IaBulletsDos.box)) {
+                        DeadDos = true;
+                        return true;
+                    }
+                }
+
+                if (imagen === 'MicrosoftTeams-image (2).png') {
+                    if (rocketBoxDos.intersectsBox(IaBulletsDos.box)) {
+                        DeadDos = true;
+                        return true;
                     }
                 }
 
                 return false;
             }
 
+            let chaseTimeD = 0; // 5 segundos en frames (asumiendo 60 FPS)
+            let totalTimeD = 0; // 10 segundos en frames (asumiendo 60 FPS)
+            let isWaitingTotalD = false;
+            let isChasingD = true;
+
             // Función de animación para la segunda escena
             function animateSecondScene() {
                 if (DeadDos === true) {
+                    if (isPaused === true) {
+                        let usernames = JSON.parse(localStorage.getItem('usernames')) || [];
+                        let puntuaciones = JSON.parse(localStorage.getItem('puntuaciones')) || [];
+
+                        // Obtener el username y la puntuación actual
+                        let usernameActual = 'indefinido';
+                        let puntuacionActual = score;
+
+                        // Agregar el username y la puntuación actual al arreglo
+                        usernames.push(usernameActual);
+                        puntuaciones.push(puntuacionActual);
+
+                        let usernameActualD = 'indefinido';
+                        let puntuacionActualD = scoreDos;
+
+                        usernames.push(usernameActualD);
+                        puntuaciones.push(puntuacionActualD);
+
+                        // Guardar los arreglos en el localStorage
+                        localStorage.setItem('usernames', JSON.stringify(usernames));
+                        localStorage.setItem('puntuaciones', JSON.stringify(puntuaciones));
+
+                        window.location.href = `MenuDead.html?score=${score}&scored=${scoreDos}`;
+                    }
                     return;
                 }
                 requestAnimationFrame(animateSecondScene);
@@ -928,6 +1115,30 @@
                             console.log('Colisión detectada Dos');
                         }
                     });
+
+                    if (chaseTimeD <= 0 && isWaitingTotalD === false && totalTimeD === 0) {
+                        isChasingD = true;
+                        isWaitingTotalD = true;
+                        chaseTimeD = 5 * 60;
+                    }
+
+                    if (totalTimeD <= 0 && isWaitingTotalD === true && chaseTimeD <= 0) {
+                        isChasingD = false;
+                        totalTimeD = 10 * 60;
+                        isWaitingTotalD = false;
+                    }
+
+
+                    if (IaBulletsDos && isChasingD === true) {
+                        chaseTimeD -= 1;
+                        IaBulletsDos.update(secondObject);
+                        if (box3.intersectsBox(IaBulletsDos.box)) {
+                            console.log('Colisión detectada con la bala IA 2');
+                            //Dead = true;
+                        }
+                    } else if (IaBulletsDos && isChasingD === false) {
+                        totalTimeD -= 1;
+                    }
                 }
 
                 controls.update();

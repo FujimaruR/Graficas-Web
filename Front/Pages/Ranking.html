@@ -17,8 +17,8 @@
 
     <audio id="AuMusic" autoplay loop>
         <source src="/Front/recursos/Audios/AdhesiveWombat_Night Shade.mp3" type="audio/mpeg">
-       </audio>
-       
+    </audio>
+
 
     <div class="contenedor-todo">
         <div class="caja-trasera">
@@ -50,13 +50,21 @@
         <div class="logo">
             <img src="/Front/recursos/logo.png" alt="initial-scale" class="box6" id="box6">
         </div>
+
+        <div class="tabla-rank">
+            <table>
+                <tbody id="tabla-body">
+                    <!-- Aquí se insertarán las filas de la tabla -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <audio id="clicksound" src="/Front/recursos/Audios/Minecraft_Sound.mp3"></audio>
 
     <script>
-        function PlayAudio(){
-        document.getElementById('AuMusic').play();
+        function PlayAudio() {
+            document.getElementById('AuMusic').play();
         }
 
 
@@ -64,14 +72,64 @@
         //para darle sonido alos botones
         const clicksound = document.getElementById('clicksound');
         const inicio = document.getElementById('inicio');
-        inicio.addEventListener('click', function(event){
+        inicio.addEventListener('click', function (event) {
             event.preventDefault();
             clicksound.play();
 
-            clicksound.onended = function() {
+            clicksound.onended = function () {
                 window.location.href = inicio.href;
             };
         });
+    </script>
+
+    <script>
+        // Obtener referencia al tbody de la tabla
+        var tablaBody = document.getElementById("tabla-body");
+
+        // Obtener los datos del localStorage
+        var usernames = JSON.parse(localStorage.getItem("usernames")) || [];
+        var puntuaciones = JSON.parse(localStorage.getItem("puntuaciones")) || [];
+
+        // Crear un arreglo de objetos que contenga el nombre de usuario y la puntuación
+        var datosOrdenados = usernames.map(function (username, index) {
+            return {
+                usuario: username,
+                puntuacion: puntuaciones[index]
+            };
+        });
+
+        // Ordenar los datos de mayor a menor puntuación
+        datosOrdenados.sort(function (a, b) {
+            return b.puntuacion - a.puntuacion;
+        });
+
+        // Limpiar el contenido actual del tbody
+        tablaBody.innerHTML = "";
+
+        // Iterar sobre los datos ordenados y construir las filas de la tabla
+        datosOrdenados.forEach(function (dato, index) {
+            // Crear una nueva fila
+            var fila = document.createElement("tr");
+
+            // Crear celdas para el número de enumeración, el nombre de usuario y la puntuación
+            var celdaNumero = document.createElement("td");
+            var celdaUsuario = document.createElement("td");
+            var celdaPuntuacion = document.createElement("td");
+
+            // Agregar el número de enumeración y texto a las celdas
+            celdaNumero.textContent = index + 1;
+            celdaUsuario.textContent = dato.usuario;
+            celdaPuntuacion.textContent = dato.puntuacion;
+
+            // Agregar las celdas a la fila
+            fila.appendChild(celdaNumero);
+            fila.appendChild(celdaUsuario);
+            fila.appendChild(celdaPuntuacion);
+
+            // Agregar la fila al tbody de la tabla
+            tablaBody.appendChild(fila);
+        });
+
     </script>
 
 </body>

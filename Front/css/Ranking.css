@@ -11,37 +11,54 @@ body {
 }
 
 @keyframes colores {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 @keyframes color-letras {
-    0% { color: rgb(231, 76, 60); }
-    50% { color: rgb(241, 196, 15); }
-    100% { color: rgb(46, 204, 113); }
+    0% {
+        color: rgb(231, 76, 60);
+    }
+
+    50% {
+        color: rgb(241, 196, 15);
+    }
+
+    100% {
+        color: rgb(46, 204, 113);
+    }
 }
 
-@keyframes movimiento{
- 0%{
-     background-position: bottom left;
+@keyframes movimiento {
+    0% {
+        background-position: bottom left;
 
- }
- 25%{
-     background-position: top right;
- }
+    }
 
- 50%{
-background-position: bottom right;
- }
+    25% {
+        background-position: top right;
+    }
 
- 75%{
-     background-position: top left ;
- }
+    50% {
+        background-position: bottom right;
+    }
 
- 100%{
-     background-position: bottom left ;
- }
+    75% {
+        background-position: top left;
+    }
+
+    100% {
+        background-position: bottom left;
+    }
 }
 
 
@@ -50,47 +67,47 @@ background-position: bottom right;
     position: absolute;
     right: 30%;
     bottom: 20%;
-    
-    
+
+
 }
 
-.letra{  
+.letra {
     display: flex;
     position: absolute;
     right: 37%;
     top: 15%;
-    width: auto; 
-    height: 15%;  
+    width: auto;
+    height: 15%;
 }
 
-.Rank{
+.Rank {
     display: flex;
     position: absolute;
     right: 58%;
     top: 37%;
-    width: auto; 
-    height: 10%;  
+    width: auto;
+    height: 10%;
 }
 
-.jugador{
+.jugador {
     display: flex;
     position: absolute;
     right: 42%;
     top: 37%;
-    width: auto; 
-    height: 10%;  
+    width: auto;
+    height: 10%;
 }
 
-.puntos{
+.puntos {
     display: flex;
     position: absolute;
     right: 30%;
     top: 37%;
-    width: auto; 
-    height: 10%;  
+    width: auto;
+    height: 10%;
 }
 
-.flecha{
+.flecha {
     display: flex;
     position: absolute;
     width: auto;
@@ -99,19 +116,41 @@ background-position: bottom right;
     top: 2%;
 }
 
-.logo{
+.logo {
     display: flex;
     position: absolute;
     width: auto;
     height: 20%;
     right: 2%;
     top: 2%;
-    
+
 }
 
 .alfa-slab one-regular {
     font-family: "Alfa Slab One", serif;
     font-weight: 400;
     font-style: normal;
-  }
-  
+}
+
+.tabla-rank {
+    font-size: 24px;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    overflow: auto; /* Agrega una barra de desplazamiento cuando el contenido se desborda */
+    max-width: 80%; /* Establece el ancho máximo del contenedor */
+    max-height: 70vh;
+    display: flex;
+    position: absolute;
+    right: 36%;
+    top: 47%;
+    width: auto;
+    height: 10%;
+}
+
+td,
+th {
+    text-align: left;
+    padding: 12px 40px;
+    /* Aumenta el espacio vertical entre las celdas */
+}
