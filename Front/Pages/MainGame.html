@@ -143,10 +143,24 @@
             }
         );
 
+        function getRandomPosition() {
+            const x = Math.random() * 100 - 70; // Ajusta según el tamaño del área de juego
+            const y = Math.random() * 100 - 60; // Ajusta según el tamaño del área de juego
+            return { x, y };
+        }
+
         let objectSol;
 
         const enemyBullets = [];
-        const numBullets = 5;
+        let numBullets = 0;
+
+        if (urlParams.has('imagen') && urlParams.get('imagen') === 'MicrosoftTeams-image (1).png') {
+            console.log('Balas: 5');
+            numBullets = 5;
+        } else {
+            console.log('Balas: 7');
+            numBullets = 7;
+        }
         const loaderDos = new OBJLoader();
         const redTextureLoader = new THREE.TextureLoader();
         const redTexture = redTextureLoader.load('/Front/recursos/Modelos/Bala/rojo.jpeg');
@@ -181,7 +195,8 @@
                     }
                 });
                 // Configurar posición, escala, rotación, etc., según sea necesario
-                modelo1.position.set(-45, -48, 0);
+                const position = getRandomPosition();
+                modelo1.position.set(position.x, position.y, 0);
                 modelo1.scale.set(0.6, 0.6, 0.6);
                 modelo1.rotation.set(-80, -0.1, 0.3);
                 // Agregar el modelo a la escena
@@ -203,7 +218,7 @@
                 modelo2 = loadedObject;
 
                 const textureLoader = new THREE.TextureLoader();
-                const texture = textureLoader.load('/Front/recursos/Modelos/Bala/rojo.jpeg');
+                const texture = textureLoader.load('/Front/recursos/Modelos/Rayo/Amarillo.png');
 
                 // Crear un material con la textura cargada
                 const material = new THREE.MeshBasicMaterial({ map: texture });
@@ -215,7 +230,8 @@
                     }
                 });
                 // Configurar posición, escala, rotación, etc., según sea necesario
-                modelo2.position.set(-45, -78, 0);
+                const position = getRandomPosition();
+                modelo2.position.set(position.x, position.y, 0);
                 modelo2.scale.set(2, 2, 2);
                 // Agregar el modelo a la escena
                 scene.add(modelo2);
@@ -248,7 +264,8 @@
                     }
                 });
                 // Configurar posición, escala, rotación, etc., según sea necesario
-                modelo3.position.set(-65, -78, 0);
+                const position = getRandomPosition();
+                modelo3.position.set(position.x, position.y, 0);
                 modelo3.scale.set(5, 5, 5);
                 // Agregar el modelo a la escena
                 scene.add(modelo3);
@@ -320,7 +337,10 @@
 
         let score = 0;
         let isPaused = false;
+        let isPausedDos = false;
 
+        let Dead = false;
+        let DeadDos = false;
 
         let invulnerableTime = 0;
         let slowBulletTime = 0;
@@ -373,7 +393,24 @@
             if (invulnerableTime <= 0) {
                 for (const bullet of enemyBullets) {
                     if (rocketBox.intersectsBox(bullet.box)) {
-                        return true;
+                        if (urlParams.has('jugadores') && urlParams.get('jugadores') === '1') {
+                            localStorage.setItem('username', 'indefinido');
+                            localStorage.setItem('Puntuacion', score);
+
+                            window.location.href = `MenuDead.html?score=${score}`;
+
+                        } else if (isPausedDos === false) {
+                            Dead = true;
+                        } else if (isPausedDos === true) {
+                            Dead = true;
+                            localStorage.setItem('username', 'indefinido');
+                            localStorage.setItem('Puntuacion', score);
+
+                            window.location.href = `MenuDead.html?score=${score}`;
+                        } else {
+                            Dead = true;
+                            return true;
+                        }
                     }
                 }
             }
@@ -383,11 +420,16 @@
 
         // Función de animación
         function animate() {
+            if (Dead === true) {
+                return;
+            }
             requestAnimationFrame(animate);
 
             if (invulnerableTime > 0) {
                 invulnerableTime -= 1;
                 if (invulnerableTime <= 0) {
+                    const positionE = getRandomPosition();
+                    modelo1.position.set(positionE.x, positionE.y, 0);
                     modelo1.visible = true;
                 }
             }
@@ -398,7 +440,9 @@
                     for (const bullet of enemyBullets) {
                         bullet.speed *= 2; // Restaurar la velocidad de las balas
                     }
-                    modelo2.visible = true; // Hacer visible el rayo de nuevo
+                    const positionR = getRandomPosition();
+                    modelo3.position.set(positionR.x, positionR.y, 0);
+                    modelo3.visible = true; // Hacer visible el rayo de nuevo
                 }
             }
 
@@ -407,7 +451,9 @@
                 if (speedBoostTime <= 0) {
                     lateralSpeed /= 2; // Restaurar la velocidad lateral del cohete
                     VerticalSpeed /= 2; // Restaurar la velocidad vertical del cohete
-                    modelo3.visible = true; // Hacer visible el reloj de nuevo
+                    const positionS = getRandomPosition();
+                    modelo2.position.set(positionS.x, positionS.y, 0);
+                    modelo2.visible = true; // Hacer visible el reloj de nuevo
                 }
             }
 
@@ -474,10 +520,15 @@
             segundaCajaBlanca.id = 'box2'
             document.body.appendChild(segundaCajaBlanca);
 
+            var secondScore = document.createElement('div');
+            secondScore.id = 'scoreD'
+            document.body.appendChild(secondScore);
+
             var primeraCajaBlanca = document.querySelector('.caja-blanca');
             primeraCajaBlanca.style.right = '55%';
 
-
+            var firstScore = document.getElementById('score');
+            firstScore.style.right = '60%';
 
             // Crear una segunda escena, cámara y renderizador
             const secondScene = new THREE.Scene();
@@ -543,6 +594,107 @@
                 }
             );
 
+            const enemyBulletsDos = [];
+            const loaderBalaDos = new OBJLoader();
+            const redBalaTextureLoader = new THREE.TextureLoader();
+            const redBalaTexture = redBalaTextureLoader.load('/Front/recursos/Modelos/Bala/rojo.jpeg');
+
+
+            loaderBalaDos.load('/Front/recursos/Modelos/Bala/sol.obj', (loadedObjectBalaD) => {
+                for (let i = 0; i < numBullets; i++) {
+                    const bullet = new EnemyBulletDos(loadedObjectBalaD, redBalaTexture);
+                    enemyBulletsDos.push(bullet);
+                }
+            });
+
+
+            let secondModelo1, secondModelo2, secondModelo3;
+
+            const loaderSecondModelo1 = new OBJLoader();
+            loaderSecondModelo1.load(
+                '/Front/recursos/Modelos/Escudo/Sci-Fi_CAP.obj',
+                function (loadedObject) {
+                    secondModelo1 = loadedObject;
+                    const textureLoader = new THREE.TextureLoader();
+                    const texture = textureLoader.load('/Front/recursos/Modelos/Escudo/BaseColor.png');
+                    const material = new THREE.MeshBasicMaterial({ map: texture });
+
+                    secondModelo1.traverse(function (child) {
+                        if (child instanceof THREE.Mesh) {
+                            child.material = material;
+                        }
+                    });
+
+                    const position = getRandomPosition();
+                    secondModelo1.position.set(position.x, position.y, 0);
+                    secondModelo1.scale.set(0.6, 0.6, 0.6);
+                    secondModelo1.rotation.set(-80, -0.1, 0.3);
+                    secondScene.add(secondModelo1);
+                },
+                function (xhr) {
+                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                },
+                function (error) {
+                    console.error('Error loading OBJ file for secondModelo1:', error);
+                }
+            );
+
+            const loaderSecondModelo2 = new OBJLoader();
+            loaderSecondModelo2.load(
+                '/Front/recursos/Modelos/Rayo/Rayo.obj',
+                function (loadedObject) {
+                    secondModelo2 = loadedObject;
+                    const textureLoader = new THREE.TextureLoader();
+                    const texture = textureLoader.load('/Front/recursos/Modelos/Rayo/Amarillo.png');
+                    const material = new THREE.MeshBasicMaterial({ map: texture });
+
+                    secondModelo2.traverse(function (child) {
+                        if (child instanceof THREE.Mesh) {
+                            child.material = material;
+                        }
+                    });
+
+                    const position = getRandomPosition();
+                    secondModelo2.position.set(position.x, position.y, 0);
+                    secondModelo2.scale.set(2, 2, 2);
+                    secondScene.add(secondModelo2);
+                },
+                function (xhr) {
+                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                },
+                function (error) {
+                    console.error('Error loading OBJ file for secondModelo2:', error);
+                }
+            );
+
+            const loaderSecondModelo3 = new OBJLoader();
+            loaderSecondModelo3.load(
+                '/Front/recursos/Modelos/Reloj/HourglassWSand0.obj',
+                function (loadedObject) {
+                    secondModelo3 = loadedObject;
+                    const textureLoader = new THREE.TextureLoader();
+                    const texture = textureLoader.load('/Front/recursos/Modelos/Bala/rojo.jpeg');
+                    const material = new THREE.MeshBasicMaterial({ map: texture });
+
+                    secondModelo3.traverse(function (child) {
+                        if (child instanceof THREE.Mesh) {
+                            child.material = material;
+                        }
+                    });
+
+                    const position = getRandomPosition();
+                    secondModelo3.position.set(position.x, position.y, 0);
+                    secondModelo3.scale.set(5, 5, 5);
+                    secondScene.add(secondModelo3);
+                },
+                function (xhr) {
+                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                },
+                function (error) {
+                    console.error('Error loading OBJ file for secondModelo3:', error);
+                }
+            );
+
             const keysStateDos = {};
 
             // Escuchar eventos de teclado
@@ -556,12 +708,158 @@
                 keysStateDos[event.key] = false;
             });
 
-            const lateralSpeed2 = 1;
-            const VerticalSpeed2 = 1;
+
+            const box3 = new THREE.Box3();
+
+            class EnemyBulletDos {
+                constructor(model, texture) {
+                    this.model = model.clone();
+                    const material = new THREE.MeshBasicMaterial({ map: texture });
+                    this.model.traverse((child) => {
+                        if (child instanceof THREE.Mesh) {
+                            child.material = material;
+                        }
+                    });
+                    this.model.scale.set(0.0002, 0.0002, 0.0002);
+                    secondScene.add(this.model);  // Aseguramos que el modelo esté en la escena antes de crear la caja de colisión
+                    this.box = new THREE.Box3();
+                    this.resetPosition();
+                }
+
+                resetPosition() {
+                    const startX = Math.random() * 800 - 400;
+                    const startY = Math.random() * 600 - 300;
+                    if (Math.random() < 0.5) {
+                        this.model.position.set(startX, Math.random() < 0.5 ? -300 : 300, 0);
+                    } else {
+                        this.model.position.set(Math.random() < 0.5 ? -400 : 400, startY, 0);
+                    }
+                    this.direction = new THREE.Vector3(0, 0, 0).sub(this.model.position).normalize();
+                    this.box.setFromObject(this.model);
+                }
+
+                update() {
+                    this.model.position.add(this.direction.clone().multiplyScalar(1)); // Ajusta la velocidad multiplicando por un factor
+                    this.box.setFromObject(this.model);
+
+                    if (this.model.position.x < -400 || this.model.position.x > 400 || this.model.position.y < -300 || this.model.position.y > 300) {
+                        this.resetPosition();
+                    }
+                }
+            }
+
+            let lateralSpeed2 = 1;
+            let VerticalSpeed2 = 1;
+            let scoreDos = 0;
+
+            let invulnerableTimeDos = 0;
+            let slowBulletTimeDos = 0;
+            let speedBoostTimeDos = 0;
+
+            function checkCollisionsDos() {
+                if (!secondObject) return false;
+
+                const rocketBoxDos = new THREE.Box3().setFromObject(secondObject);
+
+                if (secondModelo1) {
+                    const escudoBoxDos = new THREE.Box3().setFromObject(secondModelo1);
+                    if (rocketBoxDos.intersectsBox(escudoBoxDos)) {
+                        if (invulnerableTimeDos <= 0) {
+                            invulnerableTimeDos = 16 * 60;
+                            console.log('Colisión detectada con escudo dos');
+                            secondModelo1.visible = false;
+                        }
+                    }
+                }
+
+                if (secondModelo2) {
+                    const rayoBoxDos = new THREE.Box3().setFromObject(secondModelo2);
+                    if (rocketBoxDos.intersectsBox(rayoBoxDos)) {
+                        if (speedBoostTimeDos <= 0) {
+                            speedBoostTimeDos = 16 * 60;
+
+                            lateralSpeed2 *= 2;
+                            VerticalSpeed2 *= 2;
+                            console.log('Colisión detectada con rayo dos');
+                            secondModelo2.visible = false;
+                        }
+                    }
+                }
+
+                if (secondModelo3) {
+                    const relojBoxDos = new THREE.Box3().setFromObject(secondModelo3);
+                    if (rocketBoxDos.intersectsBox(relojBoxDos)) {
+                        if (slowBulletTimeDos <= 0) {
+                            slowBulletTimeDos = 16 * 60;
+                            console.log('Colisión detectada con reloj dos');
+                            for (const bullet of enemyBulletsDos) {
+                                bullet.direction.multiplyScalar(0.5); // Ralentizar la velocidad de las balas a la mitad
+                            }
+                            secondModelo3.visible = false;
+                        }
+                    }
+                }
+
+                if (invulnerableTimeDos <= 0) {
+                    for (const bullet of enemyBulletsDos) {
+                        if (rocketBoxDos.intersectsBox(bullet.box)) {
+                            if (isPaused === false) {
+                                DeadDos = true;
+                            } else if (isPaused === true) {
+                                DeadDos = true;
+                                localStorage.setItem('username', 'indefinido');
+                                localStorage.setItem('Puntuacion', score);
+
+                                window.location.href = `MenuDead.html?score=${score}`;
+                            } else {
+                                DeadDos = true;
+                                return true;
+                            }
+                        }
+                    }
+                }
+
+                return false;
+            }
 
             // Función de animación para la segunda escena
             function animateSecondScene() {
+                if (DeadDos === true) {
+                    return;
+                }
                 requestAnimationFrame(animateSecondScene);
+
+                if (invulnerableTimeDos > 0) {
+                    invulnerableTimeDos -= 1;
+                    if (invulnerableTimeDos <= 0) {
+                        const positionE = getRandomPosition();
+                        secondModelo1.position.set(positionE.x, positionE.y, 0);
+                        secondModelo1.visible = true;
+                    }
+                }
+
+                if (slowBulletTimeDos > 0) {
+                    slowBulletTimeDos -= 1;
+                    if (slowBulletTimeDos <= 0) {
+                        for (const bullet of enemyBulletsDos) {
+                            bullet.speed *= 2; // Restaurar la velocidad de las balas
+                        }
+                        const positionR = getRandomPosition();
+                        secondModelo3.position.set(positionR.x, positionR.y, 0);
+                        secondModelo3.visible = true; // Hacer visible el rayo de nuevo
+                    }
+                }
+
+                if (speedBoostTimeDos > 0) {
+                    speedBoostTimeDos -= 1;
+                    if (speedBoostTimeDos <= 0) {
+                        lateralSpeed2 /= 2; // Restaurar la velocidad lateral del cohete
+                        VerticalSpeed2 /= 2; // Restaurar la velocidad vertical del cohete
+                        const positionS = getRandomPosition();
+                        secondModelo2.position.set(positionS.x, positionS.y, 0);
+                        secondModelo2.visible = true; // Hacer visible el reloj de nuevo
+                    }
+                }
 
                 backgroundCubed.rotation.x += rotationSpeedX;
                 backgroundCubed.rotation.y += rotationSpeedY;
@@ -591,8 +889,27 @@
                     }
                 }
 
+                if (secondObject) {
+                    box1.setFromObject(secondObject);
+                    enemyBulletsDos.forEach((bullet) => {
+                        bullet.update(secondObject);
+                        if (box3.intersectsBox(bullet.box)) {
+                            console.log('Colisión detectada Dos');
+                        }
+                    });
+                }
 
+                controls.update();
                 secondRenderer.render(secondScene, secondCamera);
+
+                if (!isPausedDos) {
+                    scoreDos++;
+                    document.getElementById('scoreD').innerText = `Puntos: ${scoreDos}`;
+                }
+
+                if (checkCollisionsDos()) {
+                    isPausedDos = true;
+                }
             }
             animateSecondScene();
 

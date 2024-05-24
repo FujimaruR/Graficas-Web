@@ -11,37 +11,54 @@ body {
 }
 
 @keyframes colores {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 @keyframes color-letras {
-    0% { color: rgb(231, 76, 60); }
-    50% { color: rgb(241, 196, 15); }
-    100% { color: rgb(46, 204, 113); }
+    0% {
+        color: rgb(231, 76, 60);
+    }
+
+    50% {
+        color: rgb(241, 196, 15);
+    }
+
+    100% {
+        color: rgb(46, 204, 113);
+    }
 }
 
-@keyframes movimiento{
- 0%{
-     background-position: bottom left;
+@keyframes movimiento {
+    0% {
+        background-position: bottom left;
 
- }
- 25%{
-     background-position: top right;
- }
+    }
 
- 50%{
-background-position: bottom right;
- }
+    25% {
+        background-position: top right;
+    }
 
- 75%{
-     background-position: top left ;
- }
+    50% {
+        background-position: bottom right;
+    }
 
- 100%{
-     background-position: bottom left ;
- }
+    75% {
+        background-position: top left;
+    }
+
+    100% {
+        background-position: bottom left;
+    }
 }
 
 
@@ -50,33 +67,41 @@ background-position: bottom right;
     position: absolute;
     right: 30%;
     bottom: 3%;
-    width: 600px; /* Establece el ancho deseado */
-    height: 600px; /* Establece la altura deseada */
-    overflow: hidden; /* Para recortar cualquier parte de la imagen que sobresalga del contenedor */
+    width: 600px;
+    /* Establece el ancho deseado */
+    height: 600px;
+    /* Establece la altura deseada */
+    overflow: hidden;
+    /* Para recortar cualquier parte de la imagen que sobresalga del contenedor */
 }
 
 .segunda-caja-blanca {
     display: flex;
     position: absolute;
-    right: 8%; /* Ajusta la posición según tus necesidades */
-    bottom: 3%; /* Ajusta la posición según tus necesidades */
-    width: 600px; /* Establece el ancho deseado */
-    height: 600px; /* Establece la altura deseada */
-    overflow: hidden; /* Para recortar cualquier parte de la imagen que sobresalga del contenedor */
+    right: 8%;
+    /* Ajusta la posición según tus necesidades */
+    bottom: 3%;
+    /* Ajusta la posición según tus necesidades */
+    width: 600px;
+    /* Establece el ancho deseado */
+    height: 600px;
+    /* Establece la altura deseada */
+    overflow: hidden;
+    /* Para recortar cualquier parte de la imagen que sobresalga del contenedor */
 }
 
 
 
-.letra{  
+.letra {
     display: flex;
     position: absolute;
     right: 45%;
     top: 2%;
-    width: auto; 
-    height: 10%;   
+    width: auto;
+    height: 10%;
 }
 
-.pause{
+.pause {
     display: flex;
     position: absolute;
     width: auto;
@@ -85,17 +110,17 @@ background-position: bottom right;
     top: 2%;
 }
 
-.logo{
+.logo {
     display: flex;
     position: absolute;
     width: auto;
     height: 20%;
     right: 90%;
     top: 2%;
-    
+
 }
 
-.players{
+.players {
     display: flex;
     position: absolute;
     width: auto;
@@ -108,9 +133,9 @@ background-position: bottom right;
     font-family: "Alfa Slab One", serif;
     font-weight: 400;
     font-style: normal;
-  }
+}
 
-  #score {
+#score {
     font-size: 24px;
     color: white;
     padding: 10px;
@@ -120,7 +145,20 @@ background-position: bottom right;
     position: absolute;
     right: 47%;
     top: 10%;
-    width: auto; 
-    height: 10%;   
+    width: auto;
+    height: 10%;
 }
-  
+
+#scoreD {
+    font-size: 24px;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+
+    display: flex;
+    position: absolute;
+    right: 37%;
+    top: 10%;
+    width: auto;
+    height: 10%;
+}
