@@ -13,19 +13,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body onclick="PlayAudio()">
     <div class="contenedor-todo">
         <div class="caja-trasera">
             <img src="/Front/recursos/caja.png" alt="invalid-img" class="box" id="box">
         </div>
 
         <div id="perdiste">Perdiste</div>
-
-        <div class="play">
+        
+        <a id="inicio1" href="index.html">
+          <div class="play">
             <img src="/Front/recursos/Recurso 5.png" alt="invalid-img" class="box2" id="box2">
-        </div>
+          </div>
+        </a>
 
-        <a href="index.html">
+        <a id="inicio" href="index.html">
             <div class="flecha">
                 <img src="/Front/recursos/Recurso 3.png" alt="invalid-img" class="box5" id="box5">
             </div>
@@ -37,6 +39,44 @@
 
         <div id="score">Puntos: 0</div>
     </div>
+
+    <audio id="AuMusic" autoplay loop>
+        <source src="/Front/recursos/Audios/AdhesiveWombat_Night Shade.mp3" type="audio/mpeg">
+       </audio>
+       <audio id="clicksound" src="/Front/recursos/Audios/Minecraft_Sound.mp3"></audio>
+
+       <script>
+        function PlayAudio(){
+        document.getElementById('AuMusic').play();
+         }
+
+         
+
+         //para darle sonido alos botones
+        const clicksound = document.getElementById('clicksound');
+        const inicio = document.getElementById('inicio');
+        inicio.addEventListener('click', function(event){
+            event.preventDefault();
+            clicksound.play();
+
+            clicksound.onended = function() {
+                window.location.href = inicio.href;
+            };
+        });
+
+        //para darle sonido alos botones
+        const clicksound1 = document.getElementById('clicksound');
+        const inicio1 = document.getElementById('multi');
+        inicio1.addEventListener('click', function(event){
+            event.preventDefault();
+            clicksound1.play();
+
+            clicksound1.onended = function() {
+                window.location.href = inicio1.href;
+            };
+        });
+
+       </script>
     <script src="/Back/MenuDead.js"></script>
     <script>
         document.getElementById("box2").addEventListener("click", function () {
