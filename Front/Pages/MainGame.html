@@ -510,7 +510,7 @@
                     let puntuaciones = JSON.parse(localStorage.getItem('puntuaciones')) || [];
 
                     // Obtener el username y la puntuación actual
-                    let usernameActual = 'indefinido';
+                    let usernameActual = localStorage.getItem('nameActual');
                     let puntuacionActual = score;
 
                     // Agregar el username y la puntuación actual al arreglo
@@ -528,14 +528,14 @@
                     let puntuaciones = JSON.parse(localStorage.getItem('puntuaciones')) || [];
 
                     // Obtener el username y la puntuación actual
-                    let usernameActual = 'indefinido';
+                    let usernameActual = localStorage.getItem('nameActual');
                     let puntuacionActual = score;
 
                     // Agregar el username y la puntuación actual al arreglo
                     usernames.push(usernameActual);
                     puntuaciones.push(puntuacionActual);
 
-                    let usernameActualD = 'indefinido';
+                    let usernameActualD = localStorage.getItem('nameActual');
                     let puntuacionActualD = scoreDos;
 
                     usernames.push(usernameActualD);
@@ -1029,14 +1029,14 @@
                         let puntuaciones = JSON.parse(localStorage.getItem('puntuaciones')) || [];
 
                         // Obtener el username y la puntuación actual
-                        let usernameActual = 'indefinido';
+                        let usernameActual = localStorage.getItem('nameActual');
                         let puntuacionActual = score;
 
                         // Agregar el username y la puntuación actual al arreglo
                         usernames.push(usernameActual);
                         puntuaciones.push(puntuacionActual);
 
-                        let usernameActualD = 'indefinido';
+                        let usernameActualD = localStorage.getItem('nameActual');
                         let puntuacionActualD = scoreDos;
 
                         usernames.push(usernameActualD);
